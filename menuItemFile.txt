@@ -1,0 +1,27 @@
+Spicy Chicken Burger,Food,Burger,10.50,-1.0
+Spicy Chicken Burger with Egg,Food,Burger,12.00,-1.0
+Double Spicy Chicken Burger,Food,Burger,14.00,-1.0
+Cheese Burger,Food,Burger,12.00,-1.0
+Double Cheese Burger,Food,Burger,15.00,-1.0
+Filet O'Fish,Food,Burger,12.00,-1.0
+Special O'Leary Burger,Food,Burger,15.00,-1.0
+//
+Vanilla Shake,Drink,Shake,7.00,-1.0
+Chocolate Shake,Drink,Shake,7.00,-1.0
+Strawberry Shake,Drink,Shake,7.00,-1.0
+Chocolate Cake Shake,Drink,Shake,7.00,-1.0
+Cookies & Cream Shake,Drink,Shake,7.00,-1.0
+Tropical Shake,Drink,Shake,8.00,-1.0
+//
+French Fries,Food,Sides,5.00,-1.0
+Curly Fries,Food,Sides,5.00,-1.0
+Chilli Fries,Food,Sides,7.00,-1.0
+Chilli Cheese Fries,Food,Sides,10.00,-1.0
+Coleslaw,Food,Sides,3.00,-1.0
+//
+Mineral Water,Drink,Bottled,1.50,-1.0
+Coca Cola,Drink,Bottled,2.50,-1.0
+Pepsi,Drink,Bottled,2.50,-1.0
+Sprite,Drink,Bottled,2.50,-1.0
+Ice Lemon Tea,Drink,Bottled,2.50,-1.0
+Tropicana Twister,Drink,Bottled,2.50,-1.0
