@@ -22,35 +22,61 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MenuMain {
-	public static ArrayList<BundleItem> getBundleItemList(ArrayList<MenuItem> menuItemList) {
+	public static ArrayList<DiscountVoucher> buildDiscountVoucherList() {
+		ArrayList<DiscountVoucher> discountVoucherList = new ArrayList<DiscountVoucher>();
+		String name, voucherCode;
+		double discount;
+
+		try {
+			File discountVoucherFile = new File("discountVoucherFile.txt");
+			Scanner scanFile = new Scanner(discountVoucherFile);
+			scanFile.useDelimiter(",|\\r\\n");
+
+			while (scanFile.hasNextLine()) {
+				name = scanFile.next();
+				voucherCode = scanFile.next();
+				discount = Double.parseDouble(scanFile.next());
+
+				discountVoucherList.add(new DiscountVoucher.DiscountVoucherBuilder(name,voucherCode,discount).build());
+			}
+
+			scanFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return discountVoucherList;
+	}
+
+	public static ArrayList<BundleItem> buildBundleItemList(ArrayList<MenuItem> menuItemList) {
 		ArrayList<BundleItem> bundleItemList = new ArrayList<BundleItem>();
-		List<String> menuItemNames = new ArrayList<String>();
-		String name, menuItemName;
+		String[] menuItemNames;
+		String name;
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 		double discount;
 
 		try {
-			File bundleItemFile = new File("bundleItemFile.txt");
+			File bundleItemFile = new File("menuBundleFile.txt");
 			Scanner scanFile = new Scanner(bundleItemFile);
 			scanFile.useDelimiter(",|\\r\\n");
 			
 			while (scanFile.hasNextLine()) {
 				name = scanFile.next();
-				menuItemName = scanFile.next();
-				menuItemNames = Arrays.asList(menuItemName.split("||"));
+				menuItemNames = scanFile.next().split("[||]");
+				discount = Double.parseDouble(scanFile.next());
 
-				for(int i = 0; i < menuItemNames.size(); i++) {
+				for(int i = 0; i < menuItemNames.length; i++) {
 					for(int j = 0; j < menuItemList.size(); j++) {
-						if(menuItemNames.get(i).equals(menuItemList.get(j).getName())) {
+						if(menuItemNames[i].equals(menuItemList.get(j).getName())) {
 							menuItems.add(menuItemList.get(j));
 							break;
 						}
 					}
 				}
 
-				discount = Double.parseDouble(scanFile.nextLine());
-
-				bundleItemList.add(new BundleItem.BundleItemBuilder(name, menuItems, discount).build());
+				bundleItemList.add(new BundleItem.BundleItemBuilder(name, menuItems, discount).build()
+				);
+				menuItems.clear();
 			}
 
 			scanFile.close();
@@ -61,7 +87,7 @@ public class MenuMain {
 		return bundleItemList;
 	}
 
-	public static ArrayList<MenuItem> getMenuItemList() {
+	public static ArrayList<MenuItem> buildMenuItemList() {
 		ArrayList<MenuItem> menuItemList = new ArrayList<MenuItem>();
 		String checkNewCategory, name, foodOrDrink, category;
 		double price, discount;
@@ -106,9 +132,13 @@ public class MenuMain {
 	}
 
 	public static void buildMenu() {
-		ArrayList<MenuItem> menuItemList = getMenuItemList();
+		ArrayList<MenuItem> menuItemList = buildMenuItemList();
+		ArrayList<BundleItem> bundleItemList = buildBundleItemList(menuItemList);
+		ArrayList<DiscountVoucher> discountVoucherList = buildDiscountVoucherList();
 
-		System.out.println(menuItemList.get(0).getDiscount());
+		System.out.println(bundleItemList.get(0).getFinalPrice());
+		System.out.println(bundleItemList.get(1).getFinalPrice());
+		System.out.println(discountVoucherList.get(1).getName());
 	}
 
 	public static void main(String[] args) {
