@@ -1,27 +1,9 @@
-/*
-~~~   General  Information   ~~~
-
-Name            : Wan Nashrul Haqeem Bin Wan Kamal
-Student ID      : 1191102618
-Faculty         : Faculty of Computer Science and Informatics
-Course          : Bahelors Degree of Computer Science (Hons.)
-Specialisation  : Cybersecurity
-
-~~~  Assignment Information  ~~~
-
-Design Pattern  : Builder
-Restaurant Name : O'Leary's Shake Shack
-*/
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
-public class MenuMain {
+public class BuildMenu {
 	public static ArrayList<DiscountVoucher> buildDiscountVoucherList() {
 		ArrayList<DiscountVoucher> discountVoucherList = new ArrayList<DiscountVoucher>();
 		String name, voucherCode;
@@ -129,19 +111,5 @@ public class MenuMain {
 		}
 
 		return menuItemList;
-	}
-
-	public static void buildMenu() {
-		ArrayList<MenuItem> menuItemList = buildMenuItemList();
-		ArrayList<BundleItem> bundleItemList = buildBundleItemList(menuItemList);
-		ArrayList<DiscountVoucher> discountVoucherList = buildDiscountVoucherList();
-
-		System.out.println(bundleItemList.get(0).getFinalPrice());
-		System.out.println(bundleItemList.get(1).getFinalPrice());
-		System.out.println(discountVoucherList.get(1).getName());
-	}
-
-	public static void main(String[] args) {
-		buildMenu();
 	}
 }
