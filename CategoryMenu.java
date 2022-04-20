@@ -4,7 +4,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,8 +24,8 @@ public class CategoryMenu extends JFrame implements ActionListener {
 
         cartMenuItemsTemp.clear();
         cartBundleItemsTemp.clear();
-        cartMenuItems.addAll(cartMenuItemsTemp);
-        cartBundleItems.addAll(cartBundleItemsTemp);
+        cartMenuItemsTemp.addAll(cartMenuItems);
+        cartBundleItemsTemp.addAll(cartBundleItems);
 
         burgerButton = ConstructGui.createButton("Burgers", 400, 280);
         shakeButton = ConstructGui.createButton("Shakes", 400, 280);
@@ -90,6 +89,11 @@ public class CategoryMenu extends JFrame implements ActionListener {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         categoryFrame.add(cancelButton, gbc);
 
+        // for(int i = 0; i <cartMenuItems.size(); i++) {
+        //     System.out.println(i + " : " + cartMenuItems.get(i).getName() + " TEST");
+        //     System.out.println("Quantity : " + cartMenuItems.get(i).getQuantity());
+        // }
+
         categoryFrame.setVisible(true);
         categoryFrame.setResizable(false);
         categoryFrame.setPreferredSize(new Dimension(800,800));
@@ -121,6 +125,7 @@ public class CategoryMenu extends JFrame implements ActionListener {
 
         else if(e.getSource() == cartButton) {
             categoryFrame.dispose();
+            new CheckoutCart(cartMenuItemsTemp, cartBundleItemsTemp);
         }
 
         else if(e.getSource() == cancelButton) {

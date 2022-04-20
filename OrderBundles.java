@@ -1,13 +1,19 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.Graphics;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class OrderBundles extends JFrame implements ActionListener {
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class OrderBundles extends JFrame implements OrderItem, ActionListener {
     JFrame bundlesFrame;
     ArrayList<MenuItem> menuItemList;
     ArrayList<BundleItem> bundleItemList;
@@ -21,7 +27,7 @@ public class OrderBundles extends JFrame implements ActionListener {
 
     GridBagConstraints gbc = new GridBagConstraints();
 
-    private int rowAmount(ArrayList<MenuItem> menuItemList) {
+    public int rowAmount(ArrayList<MenuItem> menuItemList) {
         int rows = 0;
         int categoryCount = 0;
 
@@ -30,7 +36,6 @@ public class OrderBundles extends JFrame implements ActionListener {
                 categoryCount++;
             }
         }
-
 
         rows = categoryCount / 3;
 
@@ -53,8 +58,8 @@ public class OrderBundles extends JFrame implements ActionListener {
 
         cartMenuItemsTemp.clear();
         cartBundleItemsTemp.clear();
-        cartMenuItems.addAll(cartMenuItemsTemp);
-        cartBundleItems.addAll(cartBundleItemsTemp);
+        cartMenuItemsTemp.addAll(cartMenuItems);
+        cartBundleItemsTemp.addAll(cartBundleItems);
 
         JPanel bundlesListPanel = new JPanel();
         bundlesListPanel.setBackground(Color.WHITE);
@@ -72,10 +77,10 @@ public class OrderBundles extends JFrame implements ActionListener {
         }
 
         for(int i = 0; i < bundleItemList.size(); i++) {
-            JPanel newPanel = ConstructGui.createPanel(bundleItemList.get(i).getName(), bundleItemList.get(i).getFinalPrice(), 100, 200);
+            JPanel newPanel = ConstructGui.createPanel(bundleItemList.get(i).getName(), bundleItemList.get(i).getPrice(), 100, 200);
             bundlesListPanel.add(newPanel);
 
-            bundlesNameArrayList.add(menuItemList.get(i).getName());
+            bundlesNameArrayList.add(bundleItemList.get(i).getName());
         }
 
         JPanel bundlesOrderPanel = new JPanel();
@@ -132,24 +137,56 @@ public class OrderBundles extends JFrame implements ActionListener {
             String chosenItem = bundlesList.getSelectedItem().toString();
             int chosenQuantity = Integer.parseInt(quantityList.getSelectedItem().toString());
 
-            for(int i = 0; i < menuItemList.size(); i++) {
-                if(chosenItem.equals(menuItemList.get(i).getName())) {
-                    int currentQuantity = menuItemList.get(i).getQuantity();
+            boolean bundleToggle = false;
 
-                    if(cartMenuItemsTemp.contains(menuItemList.get(i))) {
+            for(int i = 0; i < bundleItemList.size(); i++) {
+                if(chosenItem.equals(bundleItemList.get(i).getName())) {
+                    bundleToggle = true;
+                    break;
+                }
+                else {
+                    bundleToggle = false;
+                }
+            }
+
+            if(!bundleToggle) {
+
+                for(int i = 0; i < menuItemList.size(); i++) {
+                    int currentQuantity = menuItemList.get(i).getQuantity();
+                    if(chosenItem.equals(menuItemList.get(i).getName()) && cartMenuItemsTemp.contains(menuItemList.get(i))) {
+
                         for(int j = 0; j < cartMenuItemsTemp.size(); j++) {
                             if(cartMenuItemsTemp.get(j).equals(menuItemList.get(i))) {
                                 cartMenuItemsTemp.get(j).setQuantity(currentQuantity + chosenQuantity);
                             }
                         }
                     }
-                    else {
+
+                    else if(chosenItem.equals(menuItemList.get(i).getName())) {
                         menuItemList.get(i).setQuantity(currentQuantity + chosenQuantity);
                         cartMenuItemsTemp.add(menuItemList.get(i));
                     }
                     menuItemList.get(i).setQuantity(currentQuantity + chosenQuantity);
-                    cartMenuItemsTemp.add(menuItemList.get(i));
-                    break;
+                }
+            }
+
+            else if(bundleToggle) {
+                for(int i = 0; i < bundleItemList.size(); i++) {
+                    int currentQuantity = bundleItemList.get(i).getQuantity();
+                    if(chosenItem.equals(bundleItemList.get(i).getName()) && cartBundleItemsTemp.contains(bundleItemList.get(i))) {
+
+                        for(int j = 0; j < cartBundleItemsTemp.size(); j++) {
+                            if(cartBundleItemsTemp.get(j).equals(bundleItemList.get(i))) {
+                                cartBundleItemsTemp.get(j).setQuantity(currentQuantity + chosenQuantity);
+                            }
+                        }
+                    }
+
+                    else if(chosenItem.equals(bundleItemList.get(i).getName())) {
+                        bundleItemList.get(i).setQuantity(currentQuantity + chosenQuantity);
+                        cartBundleItemsTemp.add(bundleItemList.get(i));
+                    }
+                    bundleItemList.get(i).setQuantity(currentQuantity + chosenQuantity);
                 }
             }
         }

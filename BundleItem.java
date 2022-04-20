@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class BundleItem {
     private String name;
     private ArrayList<MenuItem> menuItems;
+    private double price;
     private double discount;
-    private double finalPrice;
-    private double quantity;
+    private int quantity;
 
     public String getName() {
         return this.name;
@@ -15,43 +15,46 @@ public class BundleItem {
         return this.menuItems;
     }
 
+    public double getPrice() {
+        return this.price;
+    }
+
     public double getDiscount() {
         return this.discount;
     }
 
-    public double getFinalPrice() {
-        return this.finalPrice;
+    public int getQuantity() {
+        return this.quantity;
     }
 
-    public double getQuantity() {
-        return this.quantity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     private BundleItem(BundleItemBuilder builder) {
         this.name = builder.name;
         this.menuItems = builder.menuItems;
+        this.price = builder.price;
         this.discount = builder.discount;
-        this.finalPrice = builder.finalPrice;
         this.quantity = builder.quantity;
     }
 
     public static class BundleItemBuilder {
         private String name;
         private ArrayList<MenuItem> menuItems;
+        private double price;
         private double discount;
-        private double finalPrice;
-        private int quantity = 1;
+        private int quantity;
         
         public BundleItemBuilder(String name, ArrayList<MenuItem> menuItems, double discount) {
             this.name = name;
             this.menuItems = menuItems;
             this.discount = discount;
-            this.finalPrice = calculateFinalPrice();
+            this.price = calculateFinalPrice();
         }
 
         public BundleItemBuilder setQuantity(int quantity) {
             this.quantity = quantity;
-            this.finalPrice = calculateFinalPrice();
             return this;
         }
 
@@ -62,8 +65,7 @@ public class BundleItem {
                 finalPrice += this.menuItems.get(i).getPrice();
             }
             finalPrice *= (100 - this.discount) / 100;
-            finalPrice *= this.quantity;
-            
+
             return finalPrice;
         }
 

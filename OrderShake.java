@@ -1,13 +1,19 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.Graphics;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class OrderShake extends JFrame implements ActionListener {
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class OrderShake extends JFrame implements OrderItem, ActionListener {
     JFrame shakeFrame;
     ArrayList<MenuItem> menuItemList;
     JButton addToCartButton;
@@ -20,7 +26,7 @@ public class OrderShake extends JFrame implements ActionListener {
 
     GridBagConstraints gbc = new GridBagConstraints();
 
-    private int rowAmount(ArrayList<MenuItem> menuItemList) {
+    public int rowAmount(ArrayList<MenuItem> menuItemList) {
         int rows = 0;
         int categoryCount = 0;
 
@@ -50,8 +56,8 @@ public class OrderShake extends JFrame implements ActionListener {
 
         cartMenuItemsTemp.clear();
         cartBundleItemsTemp.clear();
-        cartMenuItems.addAll(cartMenuItemsTemp);
-        cartBundleItems.addAll(cartBundleItemsTemp);
+        cartMenuItemsTemp.addAll(cartMenuItems);
+        cartBundleItemsTemp.addAll(cartBundleItems);
 
         JPanel shakeListPanel = new JPanel();
         shakeListPanel.setBackground(Color.WHITE);
@@ -138,7 +144,6 @@ public class OrderShake extends JFrame implements ActionListener {
                         cartMenuItemsTemp.add(menuItemList.get(i));
                     }
                     menuItemList.get(i).setQuantity(currentQuantity + chosenQuantity);
-                    cartMenuItemsTemp.add(menuItemList.get(i));
                     break;
                 }
             }

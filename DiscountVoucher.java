@@ -7,7 +7,7 @@ public class DiscountVoucher {
         return this.name;
     }
 
-    public String voucherCode() {
+    public String getVoucherCode() {
         return this.voucherCode;
     }
 

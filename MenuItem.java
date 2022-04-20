@@ -5,6 +5,7 @@ public class MenuItem {
     private double price;
     private double discount;
     private int quantity;
+    private double priceAfterDiscount;
 
     public String getName() {
         return this.name;
@@ -30,16 +31,19 @@ public class MenuItem {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-        calculateFinalPrice();
+    public double getPriceAfterDiscount() {
+        return priceAfterDiscount;
     }
 
-    private void calculateFinalPrice() {
-        double finalPrice = this.price;
-        finalPrice *= (100 - this.discount) / 100;
-        finalPrice *= this.quantity;
-        this.price = finalPrice;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+        calculatePriceAfterDiscount();
+    }
+
+    private void calculatePriceAfterDiscount() {
+        double priceAfterDiscount = this.price;
+        priceAfterDiscount *= (100 - this.discount) / 100;
+        this.priceAfterDiscount = priceAfterDiscount;
     }
 
     private MenuItem(MenuItemBuilder builder) {
@@ -49,6 +53,7 @@ public class MenuItem {
         this.price = builder.price;
         this.discount = builder.discount;
         this.quantity = builder.quantity;
+        this.priceAfterDiscount = builder.priceAfterDiscount;
     }
 
     public static class MenuItemBuilder {
@@ -57,7 +62,8 @@ public class MenuItem {
         private String category;
         private double price;
         private double discount;
-        private int quantity = 1;
+        private int quantity;
+        private double priceAfterDiscount;
 
         public MenuItemBuilder(String name, String foodOrDrink, String category, double price) {
             this.name = name;
@@ -68,21 +74,19 @@ public class MenuItem {
 
         public MenuItemBuilder setDiscount(double discount) {
             this.discount = discount;
-            this.price = calculateFinalPrice();
+            this.priceAfterDiscount = calculatePriceAfterDiscount();
             return this;
         }
 
         public MenuItemBuilder setQuantity(int quantity) {
             this.quantity = quantity;
-            this.price = calculateFinalPrice();
             return this;
         }
 
-        public double calculateFinalPrice() {
-            double finalPrice = this.price;
-            finalPrice *= (100 - this.discount) / 100;
-            finalPrice *= this.quantity;
-            return finalPrice;
+        public double calculatePriceAfterDiscount() {
+            double priceAfterDiscount = this.price;
+            priceAfterDiscount *= (100 - this.discount) / 100;
+            return priceAfterDiscount;
         }
 
         public MenuItem build() {
